@@ -21,6 +21,8 @@ use App\Http\Controllers\FeedbackController;
 Route::get('/', function () {
     return view('dashboard.layout.master');
 });
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -84,3 +86,8 @@ Route::get('/feedbacks/{product}', [FeedbackController::class, 'show'])->name('f
 Route::get('/feedbacks/{product}/edit', [FeedbackController::class, 'edit'])->name('feedback.edit');
 Route::put('/feedbacks/{product}', [FeedbackController::class, 'update'])->name('feedback.update'); 
 Route::delete('/feedbacks/{product}', [FeedbackController::class, 'destroy'])->name('feedback.destroy'); 
+
+
+
+
+

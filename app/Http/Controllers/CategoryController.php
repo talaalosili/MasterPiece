@@ -26,7 +26,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
-            'category_type' => 'nullable|in:hannah,gender reveal,wedding,engagement,graduation', // تعديل هنا
+            'category_type' => 'nullable|in:hannah,gender reveal,wedding,engagement,graduation', 
             'category_id' => 'nullable|exists:categories,id',
             'user_id' => 'exists:users,id',
 
@@ -46,7 +46,7 @@ class CategoryController extends Controller
             'user_id' => 1, 
             'name' => $request->name,
             'description' => $request->description,
-            'image' => $path ? $path . $filename : null, 
+            'image' => $path,
             'category_type' => $request->category_type,
             'category_id' => $request->category_id,
         ]);
@@ -63,6 +63,8 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $category = Category::findOrFail($id);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -70,20 +72,27 @@ class CategoryController extends Controller
             'category_type' => 'required|in:hannah,gender reveal,wedding,engagement.graduation',
             'category_id' => 'nullable|exists:categories,id',
         ]);
+        
+    $path =  $category->image; // Keep the existing image path if no new image is uploaded
 
-        $category = Category::findOrFail($id);
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . '.' . $extension;
+        $path = 'uploads/image/';
+        $file->move(public_path($path), $filename);
+        $path = $path . $filename; // Update with the new image path
+    }
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('categories', 'public');
-        }
 
         $category->update([
             'name' => $request->name,
             'description' => $request->description,
-            'image' => $imagePath ?? $category->image,
+            'image' => $path,
             'category_type' => $request->category_type,
             'category_id' => $request->category_id,
         ]);
+
 
         return redirect()->route('categories.index')->with('success', 'Category updated successfully!');
     }
@@ -102,5 +111,5 @@ class CategoryController extends Controller
 }
 
 
-
+    
 }

@@ -41,9 +41,11 @@
                     <!-- Category Type -->
                     <div class="form-floating form-floating-outline mb-6">
                         <select class="form-select" name="category_type" id="category_type" required>
-                            <option value="type1" {{ $category->category_type == 'type1' ? 'selected' : '' }}>Type 1</option>
-                            <option value="type2" {{ $category->category_type == 'type2' ? 'selected' : '' }}>Type 2</option>
-                            <option value="type3" {{ $category->category_type == 'type3' ? 'selected' : '' }}>Type 3</option>
+                            <option value="hannah" {{ $category->category_type == 'Hannah' ? 'selected' : '' }}>Hannah</option>
+                            <option value="gender Reveal" {{ $category->category_type == 'Gender Reveal' ? 'selected' : '' }}>Gender Reveal</option>
+                            <option value="wedding" {{ $category->category_type == 'Wedding' ? 'selected' : '' }}>Wedding</option>
+                            <option value="engagement" {{ $category->category_type == 'Engagement' ? 'selected' : '' }}>Engagement</option>
+                            <option value="graduation" {{ $category->category_type == 'Graduation' ? 'selected' : '' }}>Graduation</option>
                         </select>
                         <label for="category_type">Category Type</label>
                     </div>

@@ -56,7 +56,6 @@ class CompanyController extends Controller
             'description' => 'nullable|string',
             'phone' => 'required|string|max:20',
             'address' => 'required|string',
-            'email' => 'required|email|unique:companies,email,' . $company->company_id,
         ]);
 
         $company->update($request->all());

@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="text-left">
-        <a href="{{ route('users.create') }}" class="btn btn-success waves-effect waves-light">+Add User</a>
+        <a href="{{ route('users.create') }}" class="btn btn-success waves-effect waves-light">+ Add User</a>
     </div>
     <div class="card">
         <h5 class="card-header">User Table</h5>
@@ -30,39 +30,40 @@
                         <td>{{ $user->fullname }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
-    @if($user->role == '0')
-        <span class="badge bg-primary">User</span>
-    @elseif($user->role == '1')
-        <span class="badge bg-success">Admin</span>
-    @elseif($user->role == '-1')
-        <span class="badge bg-warning">Super Admin</span>
-    @endif
-</td>
+                            @if($user->role == '0')
+                                <span class="badge bg-primary">User</span>
+                            @elseif($user->role == '1')
+                                <span class="badge bg-success">Admin</span>
+                            @elseif($user->role == '-1')
+                                <span class="badge bg-warning">Super Admin</span>
+                            @endif
+                        </td>
+                        <td>
+                            <!-- View User -->
+                            <form action="{{ route('users.show', $user->id) }}" method="GET" style="display:inline-block;">
+                                <button type="submit" style="background: none; border: none; color: #007bff; cursor: pointer;" title="View User">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </form>
 
-<td>
-    <form action="{{ route('users.show', $user->id) }}" method="GET" style="display:inline-block;">
-        <button type="submit" style="background: none; border: none; color: #007bff; cursor: pointer;" title="View User">
-            <i class="fas fa-eye"></i>
-        </button>
-    </form>
+                            <!-- Edit User -->
+                            <form action="{{ route('users.edit', $user->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('GET')
+                                <button type="submit" style="background: none; border: none; color: #ffc107; cursor: pointer;" title="Edit User">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </form>
 
-    <form action="{{ route('users.edit', $user->id) }}" method="POST" style="display:inline-block;">
-        @csrf
-        @method('GET')
-        <button type="submit" style="background: none; border: none; color: #ffc107; cursor: pointer;" title="Edit User">
-            <i class="fas fa-edit"></i>
-        </button>
-    </form>
-
-    <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" style="background: none; border: none; color: red; cursor: pointer;" onclick="return confirm('Are you sure?')" title="Delete User">
-            <i class="fas fa-trash-alt"></i>
-        </button>
-    </form>
-</td>
-
+                            <!-- Delete User -->
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="delete-form" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="delete-btn" style="background: none; border: none; color: red; cursor: pointer;" title="Delete User">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -79,7 +80,7 @@
             deleteButtons.forEach(function(button) {
                 button.addEventListener('click', function(event) {
                     event.preventDefault(); 
-                    const form = button.closest('form');
+                    const form = button.closest('form'); // Select the closest form for deletion
 
                     Swal.fire({
                         title: 'Are you sure?',
@@ -91,11 +92,11 @@
                         confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); 
+                            form.submit(); // Submit the form if confirmed
                         }
                     });
                 });
             });
         });
-    </script>
+    </script> 
 @endsection

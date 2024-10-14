@@ -21,38 +21,41 @@ public function create()
 
 public function store(Request $request)
 {
-    $validated = $request->validate([
+    
+    $request->validate([
         'name' => 'required|string|max:255',
         'description' => 'required|string',
         'price' => 'required|numeric',
-        'category_id' => 'required|exists:categories,id', // Ensure valid category
+        'category_id' => 'required|exists:categories,id',
         'image' => 'nullable|mimes:png,jpg,jpeg,webp',
     ]);
- $path = null; 
-    
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $path = 'uploads/image/';
-            $file->move(public_path($path), $filename);
-        }
 
-     
-        Product::create([
-            'name' => $request->name, // Ensure this matches your form input
-            'description' => $request->description,
-            'price' => $request->price,
-            'image' => $path ? $path . $filename : null,
-            'category_id' => $request->category_id, // Fix this from category_type to category_id
-        ]);
-        
-        
     
-        return redirect()->route('products.index')->with('success', 'Product created successfully!');
-    
-        
+    $path = null;
+
+ 
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . '.' . $extension;
+        $path = 'uploads/image/';
+        $file->move(public_path($path), $filename);
+        $path = $path . $filename; 
     }
+
+   
+    Product::create([
+        'name' => $request->name, 
+        'description' => $request->description,
+        'price' => $request->price,
+        'image' => $path, 
+        'category_id' => $request->category_id, 
+    ]);
+
+    
+    return redirect()->route('products.index')->with('success', 'Product created successfully!');
+}
+
     
 
 public function show($id)
@@ -74,8 +77,10 @@ public function edit($id)
 
 public function update(Request $request, $id)
 {
-    $product = Product::findOrFail($id); // Fetch the product first
+    
+    $product = Product::findOrFail($id);
 
+   
     $request->validate([
         'name' => 'required|string|max:255',
         'description' => 'required',
@@ -84,27 +89,32 @@ public function update(Request $request, $id)
         'category_id' => 'required|exists:categories,id',
     ]);
 
-    $path = $product->image; // Keep the existing image path if no new image is uploaded
-
+    
     if ($request->hasFile('image')) {
         $file = $request->file('image');
         $extension = $file->getClientOriginalExtension();
         $filename = time() . '.' . $extension;
         $path = 'uploads/image/';
         $file->move(public_path($path), $filename);
-        $path = $path . $filename; // Update with the new image path
+        $path = $path . $filename; 
+
+        
+        $product->update([
+            'image' => $path,
+        ]);
     }
 
+    
     $product->update([
         'name' => $request->name,
         'description' => $request->description,
         'price' => $request->price,
-        'image' => $path,
         'category_id' => $request->category_id,
     ]);
 
     return redirect()->route('products.index')->with('success', 'Product updated successfully.');
 }
+
 
 
 public function destroy($id)

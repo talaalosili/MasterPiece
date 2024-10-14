@@ -21,17 +21,17 @@
             <a href="javascript:void(0);" class="menu-link  menu-toggle">
                 <i class="menu-icon tf-icons ri-bank-card-2-line"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
-                <div class="badge bg-danger rounded-pill ms-auto">5</div>
+                <!-- <div class="badge bg-danger rounded-pill ms-auto">5</div> -->
             </a>
        
             <ul class="menu-sub">
         
-            <li class="menu-item active">
+            <!-- <li class="menu-item active">
             <a href="" class="menu-link">
                 <i class="ri-money-dollar-box-fill" style="padding-right: 8px;" ></i>
                 <div data-i18n="Basic">Rentals</div>
             </a>
-        </li>
+        </li> -->
 
         <li class="menu-item">
             <a href="{{route('users.index')}}" class="menu-link">

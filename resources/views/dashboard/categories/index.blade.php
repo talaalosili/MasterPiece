@@ -48,10 +48,10 @@
                             </form>
 
                             <!-- Delete Category -->
-                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="delete-form" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background: none; border: none; color: red; cursor: pointer;" onclick="return confirm('Are you sure?')" title="Delete Category">
+                                <button type="button" class="delete-btn" style="background: none; border: none; color: red; cursor: pointer;" title="Delete Category">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
@@ -72,7 +72,7 @@
             deleteButtons.forEach(function(button) {
                 button.addEventListener('click', function(event) {
                     event.preventDefault(); 
-                    const form = button.closest('form');
+                    const form = button.closest('form'); // Select the closest form for deletion
 
                     Swal.fire({
                         title: 'Are you sure?',
@@ -84,11 +84,11 @@
                         confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); 
+                            form.submit(); // Submit the form only if confirmed
                         }
                     });
                 });
             });
         });
-    </script>
+    </script> 
 @endsection

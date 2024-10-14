@@ -66,4 +66,20 @@ public function destroy($id_feedback)
     return redirect()->route('feedback.index')->with('success', 'Feedback deleted successfully.');
 }
 
+    // دالة تحرير البيانات
+    public function edit($id)
+    {
+        // جلب التغذية الراجعة بناءً على المعرف (ID)
+        $feedback = Feedback::find($id);
+
+        // التأكد من أن التغذية الراجعة موجودة
+        if (!$feedback) {
+            return redirect()->route('feedback.index')->with('error', 'Feedback not found');
+        }
+
+        // عرض صفحة التحرير مع تمرير البيانات
+        return view('dashboard.feedbacks.edit', compact('feedback'));
+    }
+
+  
 }

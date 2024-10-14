@@ -59,7 +59,6 @@
                     <label>Upload File/Image</label>
                     <input type="file" name="image" class="form-control" />
                 </div>
-
                 <!-- Submit Button -->
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Create Product</button>
